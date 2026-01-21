@@ -1,0 +1,14 @@
+{
+    "name": "loon-plugins-sync",
+    "version": "1.0.0",
+    "description": "Auto sync script for Loon adblock plugins",
+    "main": "fmz-sync.js",
+    "scripts": {
+        "sync": "node fmz-sync.js"
+    },
+    "dependencies": {
+        "axios": "^1.6.0"
+    },
+    "author": "",
+    "license": "ISC"
+}

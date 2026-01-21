@@ -1,0 +1,65 @@
+name: Sync Loon Plugin
+
+on:
+  schedule:
+    - cron: '0 18 * * *'
+  push:
+    branches:
+      - source
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+        with:
+          ref: source
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install and Run Sync
+        working-directory: ./LoonPlugins
+        run: |
+          npm install
+          node fmz-sync.js
+
+      - name: Deploy to Main Branch
+        run: |
+          # 配置 Git 用户
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          # 暂存生成的插件文件
+          mkdir -p /tmp/deploy
+          cp LoonPlugins/my_block_ads.lpx /tmp/deploy/
+
+          # 切换到 main 分支 (如果不存在则创建孤儿分支)
+          if git ls-remote --exit-code --heads origin main; then
+            git checkout main
+            git pull origin main
+          else
+            git checkout --orphan main
+            git rm -rf .
+          fi
+
+          # 恢复文件结构
+          mkdir -p LoonPlugins
+          cp /tmp/deploy/my_block_ads.lpx LoonPlugins/
+          
+          # 提交并推送
+          git add LoonPlugins/my_block_ads.lpx
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Auto-update Loon plugin [skip ci]" -m "Generated from source commit $(git rev-parse --short source)"
+            git push origin main
+          fi
