@@ -45,6 +45,8 @@ jobs:
 
           # 切换到 main 分支 (如果不存在则创建孤儿分支)
           if git ls-remote --exit-code --heads origin main; then
+            # 强制回滚 source 分支的本地修改(已保存到 /tmp)，确保 checkout 不会冲突
+            git reset --hard
             git checkout main
             git pull origin main
           else
