@@ -15,6 +15,5 @@ npm-debug.log*
 *.tmp
 *.temp
 
-# 自动生成的文件 (如果不想在 source 分支看到它)
-*.lpx
+# 自动生成的文件
 *.plugin

@@ -9,7 +9,7 @@ const OUTPUT_FILE = path.join(__dirname, 'my_block_ads.lpx');
 // 您真正关心的 App 列表
 const KEEP_APPS = [
     "夸克", "酷安", "脉脉", "Reddit", "淘宝", "网易云音乐",
-    "解除微信链接限制", "闲鱼", "Youtube", "快递100", "字节跳动广告",
+    "解除微信链接限制", "闲鱼", "快递100", "字节跳动广告",
     "阿里巴巴", "阿里云盘", "百度网盘", "哔哩哔哩", "钉钉", "华住会",
     "和风天气", "ONE", "平安好车主", "拼多多", "腾讯广告", "米家",
     "雪球", "小宇宙", "一淘", "招商银行", "掌上生活", "中国移动", "12306"
@@ -20,7 +20,6 @@ const APP_MAP = {
     "闲鱼": ["闲鱼", "goofish", "xmyu"],
     "淘宝": ["淘宝", "taobao"],
     "网易云音乐": ["网易云音乐", "music.163", "music.126", "whyiyyybyt"],
-    "Youtube": ["youtube", "googlevideo"],
     "夸克": ["夸克", "quark", "kxke", "uc.cn"],
     "Reddit": ["reddit"],
     "酷安": ["酷安", "kuan", "coolapk"],
