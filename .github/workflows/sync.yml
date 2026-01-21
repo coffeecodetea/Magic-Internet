@@ -38,9 +38,10 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
 
-          # 暂存生成的插件文件
+          # 暂存生成的插件文件和公开版 README
           mkdir -p /tmp/deploy
           cp LoonPlugins/my_block_ads.lpx /tmp/deploy/
+          cp README_public.md /tmp/deploy/README.md
 
           # 切换到 main 分支 (如果不存在则创建孤儿分支)
           if git ls-remote --exit-code --heads origin main; then
@@ -54,12 +55,13 @@ jobs:
           # 恢复文件结构
           mkdir -p LoonPlugins
           cp /tmp/deploy/my_block_ads.lpx LoonPlugins/
+          cp /tmp/deploy/README.md ./
           
           # 提交并推送
-          git add LoonPlugins/my_block_ads.lpx
+          git add LoonPlugins/my_block_ads.lpx README.md
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Auto-update Loon plugin [skip ci]" -m "Generated from source commit $(git rev-parse --short source)"
+            git commit -m "Auto-update Loon plugin and README [skip ci]" -m "Generated from source commit $(git rev-parse --short source)"
             git push origin main
           fi

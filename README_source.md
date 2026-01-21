@@ -1,6 +1,6 @@
 # Magic-Internet
 
-我的网络环境优化配置集合。
+准备搞个魔法网络优化配置集合（内容精简版），目前Loon插件取自fmz200，精简后只保留自用插件。
 
 ## 目录结构
 - **[LoonPlugins](./LoonPlugins)**: 自动精简与同步的 Loon 广告屏蔽插件。
