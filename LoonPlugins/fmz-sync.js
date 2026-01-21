@@ -108,6 +108,12 @@ function checkAppMatch(trimmedLine, appName) {
         // 针对 "微信解除链接限制" 做更宽松的匹配以防万一
         if (appName === "解除微信链接限制" && lowerLine.includes("微信解除链接限制")) return true;
 
+        // 针对 "哔哩哔哩" 的特殊处理：排除 "哔哩哔哩漫画"
+        if ((lowerK === '哔哩哔哩' || lowerK === 'bilibili') &&
+            (lowerLine.includes('漫画') || lowerLine.includes('manga') || lowerLine.includes('manhua'))) {
+            return false;
+        }
+
         return lowerLine.includes(lowerK);
     });
 }
@@ -221,12 +227,7 @@ async function run() {
 
                 if (isHeader) {
                     const commentContent = trimmed.includes('>') ? trimmed.split('>')[1].trim() : trimmed.replace('#', '').trim();
-                    const titleMatch = KEEP_APPS.find(app => {
-                        const keywords = APP_MAP[app] || [app];
-                        const lowerTitle = commentContent.toLowerCase();
-                        return keywords.some(k => lowerTitle.includes(k.toLowerCase()));
-                    });
-
+                    const titleMatch = KEEP_APPS.find(app => checkAppMatch(commentContent, app));
                     if (titleMatch) {
                         skipCurrentBlock = false;
                         pendingHeader = titleMatch;
