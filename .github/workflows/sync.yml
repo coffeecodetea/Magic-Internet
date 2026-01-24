@@ -41,6 +41,7 @@ jobs:
           # 暂存生成的插件文件和公开版 README
           mkdir -p /tmp/deploy
           cp LoonPlugins/my_block_ads.lpx /tmp/deploy/
+          cp LoonPlugins/WeChat_Ads_Merge.lpx /tmp/deploy/
           cp README_public.md /tmp/deploy/README.md
 
           # 切换到 main 分支 (如果不存在则创建孤儿分支)
@@ -57,10 +58,11 @@ jobs:
           # 恢复文件结构
           mkdir -p LoonPlugins
           cp /tmp/deploy/my_block_ads.lpx LoonPlugins/
+          cp /tmp/deploy/WeChat_Ads_Merge.lpx LoonPlugins/
           cp /tmp/deploy/README.md ./
           
           # 提交并推送
-          git add LoonPlugins/my_block_ads.lpx README.md
+          git add LoonPlugins/my_block_ads.lpx LoonPlugins/WeChat_Ads_Merge.lpx README.md
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
