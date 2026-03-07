@@ -2,7 +2,7 @@
 #!desc=Merged plugin for WeChat Official Accounts & Mini Programs (同步自可莉)
 #!author=Hpxo
 #!icon=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/WeChat.png
-#!date=2026-03-07 15:33:05
+#!date=2026-03-07 16:55:13
 
 [Rule]
 DOMAIN-SUFFIX, wxs.qq.com, REJECT
