@@ -17,3 +17,6 @@ npm-debug.log*
 
 # 自动生成的文件
 *.plugin
+
+# 手工维护的百度地图插件需要随源码提交。
+!LoonPlugins/BaiduMap_RemoveAds.plugin

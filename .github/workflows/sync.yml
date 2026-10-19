@@ -46,6 +46,7 @@ jobs:
           mkdir -p /tmp/deploy
           cp LoonPlugins/my_block_ads.lpx /tmp/deploy/
           cp LoonPlugins/WeChat_Ads_Merge.lpx /tmp/deploy/
+          cp LoonPlugins/BaiduMap_RemoveAds.plugin /tmp/deploy/
           cp README_public.md /tmp/deploy/README.md
 
           # 切换到 main 分支 (如果不存在则创建孤儿分支)
@@ -63,10 +64,11 @@ jobs:
           mkdir -p LoonPlugins
           cp /tmp/deploy/my_block_ads.lpx LoonPlugins/
           cp /tmp/deploy/WeChat_Ads_Merge.lpx LoonPlugins/
+          cp /tmp/deploy/BaiduMap_RemoveAds.plugin LoonPlugins/
           cp /tmp/deploy/README.md ./
           
           # 提交并推送
-          git add LoonPlugins/my_block_ads.lpx LoonPlugins/WeChat_Ads_Merge.lpx README.md
+          git add LoonPlugins/my_block_ads.lpx LoonPlugins/WeChat_Ads_Merge.lpx LoonPlugins/BaiduMap_RemoveAds.plugin README.md
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
