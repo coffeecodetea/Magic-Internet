@@ -1,0 +1,44 @@
+#!name = 百度地图去广告@ddgksf2013
+#!desc = 应用净化；完整保留墨鱼 Script Hub 转换版的 9 条规则
+#!author = ddgksf2013；Hpxo（Loon 原生语法整理）
+#!homepage = https://github.com/coffeecodetea/Magic-Internet
+#!loon_version = 3.5.1(978)
+#!date = 2026-10-20
+#!tag = 去广告
+
+# 规则基准：用户提供、已实测适用于 App Store 官方百度地图的 Script Hub 转换结果。
+# 来源署名：https://ddgksf2013.top/scripts/bdmap.ads.js
+# 仅转换语法，保留原有正则、jq 表达式、规则顺序与 MITM 列表；无需重签 IPA。
+# 使用前请在 Loon 开启 MitM，并安装、信任其证书。
+
+[Rewrite]
+
+# 首页信息流：清空推荐内容。
+response if ${url} ~= /^https?:\/\/.*map\.baidu\.com\/.*govui\/rich_content/ then response.json.jq(".data.posts.content=[]")
+
+# HTTPDNS：清空 newclient.map.baidu.com 对应记录，保留其他域名数据。
+response if ${url} ~= /^https?:\/\/httpdns\.baidubce\.com/ then response.json.jq(".data[\"newclient.map.baidu.com\"]={}")
+
+# 我的页面：删除运动、金币、金币卡片与商城数据。
+response if ${url} ~= /^https?:\/\/newclient\.map\.baidu\.com\/usercenter\/mine\/page/ then response.json.jq("del(.data.sport_card, .data.gold, .data.gold_coin_card, .data.shop)")
+
+# 搜索推广：清空周边热词。
+response if ${url} ~= /^https?:\/\/newclient\.map\.baidu\.com\/living\/nearby\/hot-words\?/ then response.json.jq(".Result.data=[]")
+
+# 首页推广：保留原 qt=hw 匹配范围；reject-200 等价于 HTTP 200 空响应。
+request if ${url} ~= /^https?:\/\/newclient\.map\.baidu\.com\/client\/phpui.*qt=hw/ then reject(200)
+
+# 开屏广告。
+request if ${url} ~= /^https?:\/\/newclient\.map\.baidu\.com\/client\/phpui2\/\?qt=ads/ then reject(200)
+
+# 商业推广。
+request if ${url} ~= /^https?:\/\/newclient\.map\.baidu\.com\/client\/crossmarketing/ then reject(200)
+
+# 动态推广。
+request if ${url} ~= /^https?:\/\/newclient\.map\.baidu\.com\/client\/usersystem\/home\/dynamic/ then reject(200)
+
+# TIPS 推广。
+request if ${url} ~= /^https?:\/\/newclient\.map\.baidu\.com\/contributor-bus\/bounty\/tips/ then reject(200)
+
+[MITM]
+hostname = 180.76.76.200, newclient.map.baidu.com, httpdns.baidubce.com, ugc.map.baidu.com
